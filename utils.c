@@ -2,15 +2,17 @@
 #include <ctype.h>
 #include <string.h>
 
+unsigned char hex_to_byte(const char c) {
+  if (isdigit(c)) {
+    return c - '0';
+  }
+  return 10 + c - 'a';
+}
+
 size_t hex_to_bytes(unsigned char *out, const char hex[static 1]) {
   for (size_t i = 0; i < strlen(hex); ++i) {
     char c = tolower(hex[i]);
-    unsigned char value;
-    if (isdigit(c)) {
-      value = c - '0';
-    } else {
-      value = 10 + c - 'a';
-    }
+    unsigned char value = hex_to_byte(c);
     if (i % 2 == 0) {
       value <<= 4;
     }
@@ -20,7 +22,7 @@ size_t hex_to_bytes(unsigned char *out, const char hex[static 1]) {
 }
 
 unsigned char *bytes_to_base64(unsigned char *out,
-                                const unsigned char in[static 1], size_t len) {
+                               const unsigned char in[static 1], size_t len) {
   static const unsigned char base64_table[65] =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
