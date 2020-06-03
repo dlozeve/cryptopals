@@ -3,6 +3,20 @@
 #include <math.h>
 #include <string.h>
 
+#define min(a, b)                                                              \
+  ({                                                                           \
+    __typeof__(a) _a = (a);                                                    \
+    __typeof__(b) _b = (b);                                                    \
+    _a > _b ? _b : _a;                                                         \
+  })
+
+#define max(a, b)                                                              \
+  ({                                                                           \
+    __typeof__(a) _a = (a);                                                    \
+    __typeof__(b) _b = (b);                                                    \
+    _a > _b ? _a : _b;                                                         \
+  })
+
 unsigned char hex_to_byte(const char c) {
   if (isdigit(c)) {
     return c - '0';
@@ -68,4 +82,19 @@ double frequency_score(unsigned char *buf, size_t len) {
     chi2 += pow(counts[i] - expected, 2) / expected;
   }
   return chi2;
+}
+
+unsigned int hamming(const char *s1, const char *s2) {
+  unsigned int len1 = strlen(s1);
+  unsigned int len2 = strlen(s2);
+
+  unsigned int res = 0;
+  for (size_t i = 0; i < min(len1, len2); ++i) {
+    unsigned int n = s1[i] ^ s2[i];
+    while (n) {
+      res += n & 1;
+      n >>= 1;
+    }
+  }
+  return res;
 }
