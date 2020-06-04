@@ -37,6 +37,26 @@ static MunitResult test_hex_to_base64(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_base64_decode(const MunitParameter params[],
+                                      void *data) {
+  (void)params;
+  (void)data;
+
+  const char *input = "TWFu";
+  unsigned char buf[512] = {0};
+  size_t len = base64_to_bytes(buf, input);
+  assert_string_equal((char *)buf, "Man");
+  assert_size(len, ==, 3);
+
+  const char *input2 = "WUVMTE9XIFNVQk1BUklORQ==";
+  memset(buf, 0, 512);
+  len = base64_to_bytes(buf, input2);
+  assert_string_equal((char *)buf, "YELLOW SUBMARINE");
+  assert_size(len, ==, 18); // the 2 = create two bytes of padding at the end
+
+  return MUNIT_OK;
+}
+
 static MunitResult test_frequency_score(const MunitParameter params[],
                                         void *data) {
   (void)params;
@@ -72,6 +92,8 @@ static MunitTest test_suite_tests[] = {
     {"/hex_to_byte", test_hex_to_byte, NULL, NULL, MUNIT_TEST_OPTION_NONE,
      NULL},
     {"/hex_to_base64", test_hex_to_base64, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {"/base64_decode", test_base64_decode, NULL, NULL, MUNIT_TEST_OPTION_NONE,
      NULL},
     {"/frequency_score", test_frequency_score, NULL, NULL,
      MUNIT_TEST_OPTION_NONE, NULL},

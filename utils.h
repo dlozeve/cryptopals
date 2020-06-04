@@ -6,6 +6,7 @@
 unsigned char hex_to_byte(const char c);
 size_t hex_to_bytes(unsigned char *out, const char hex[static 1]);
 char *bytes_to_base64(char *out, const unsigned char in[static 1], size_t len);
+size_t base64_to_bytes(unsigned char *out, const char *in);
 double frequency_score(const char *buf, size_t len);
 unsigned int hamming(const char *s1, const char *s2);
 
