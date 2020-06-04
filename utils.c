@@ -36,9 +36,8 @@ size_t hex_to_bytes(unsigned char *out, const char hex[static 1]) {
   return strlen(hex) / 2 + strlen(hex) % 2;
 }
 
-unsigned char *bytes_to_base64(unsigned char *out,
-                               const unsigned char in[static 1], size_t len) {
-  static const unsigned char base64_table[65] =
+char *bytes_to_base64(char *out, const unsigned char in[static 1], size_t len) {
+  static const char base64_table[65] =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
   for (size_t i = 0; i < len - 2; i += 3) {

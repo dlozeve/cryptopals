@@ -10,7 +10,7 @@ int main(int argc, char *argv[argc + 1]) {
 
   unsigned char buf[512] = {0};
   size_t len = hex_to_bytes(buf, argv[1]);
-  unsigned char out[512] = {'\0'};
+  char out[512] = {'\0'};
   bytes_to_base64(out, buf, len);
   printf("%s\n", out);
 
