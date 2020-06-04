@@ -9,3 +9,8 @@ executable('ex03', ['ex03/main.c', 'utils.c'], dependencies: m_dep)
 executable('ex04', ['ex04/main.c', 'utils.c'], dependencies: m_dep)
 executable('ex05', ['ex05/main.c', 'utils.c'], dependencies: m_dep)
 executable('ex06', ['ex06/main.c', 'utils.c'], dependencies: m_dep)
+
+munit_dep = dependency('munit', fallback: ['munit', 'munit_dep'])
+
+tests = executable('tests', ['tests/main.c', 'utils.c'], dependencies: [m_dep, munit_dep])
+test('tests', tests)
