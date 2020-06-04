@@ -59,6 +59,15 @@ static MunitResult test_frequency_score(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_hamming(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  assert_int(hamming("this is a test", "wokka wokka!!!"), ==, 37);
+
+  return MUNIT_OK;
+}
+
 static MunitTest test_suite_tests[] = {
     {"/hex_to_byte", test_hex_to_byte, NULL, NULL, MUNIT_TEST_OPTION_NONE,
      NULL},
@@ -66,6 +75,7 @@ static MunitTest test_suite_tests[] = {
      NULL},
     {"/frequency_score", test_frequency_score, NULL, NULL,
      MUNIT_TEST_OPTION_NONE, NULL},
+    {"/hamming", test_hamming, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
     {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}};
 
 static const MunitSuite test_suite = {(char *)"", test_suite_tests, NULL, 1,
