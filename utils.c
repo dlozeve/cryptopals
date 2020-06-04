@@ -50,7 +50,7 @@ char *bytes_to_base64(char *out, const unsigned char in[static 1], size_t len) {
   return out;
 }
 
-double frequency_score(unsigned char *buf, size_t len) {
+double frequency_score(const char *buf, size_t len) {
   static const double english_freqs[27] = {
       0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, // A-G
       0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, // H-N

@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     unsigned char buf[512] = {0};
     len = hex_to_bytes(buf, line);
 
-    unsigned char cur[512] = {'\0'};
+    char cur[512] = {'\0'};
     for (char c = 32; c < 127; ++c) {
       for (size_t i = 0; i < len; ++i) {
         cur[i] = buf[i] ^ c;
