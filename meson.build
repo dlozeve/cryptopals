@@ -7,7 +7,7 @@ incdir = include_directories('src')
 
 cmake = import('cmake')
 mbedtls_proj = cmake.subproject('mbedtls')
-mbedtls_dep = mbedtls_proj.dependency('mbedtls')
+mbedtls_dep = mbedtls_proj.dependency('mbedcrypto')
 
 executable('ex01', ['src/ex01/main.c', 'src/utils.c'], dependencies: m_dep, include_directories: incdir)
 executable('ex02', ['src/ex02/main.c', 'src/utils.c'], dependencies: m_dep, include_directories: incdir)

@@ -1,9 +1,9 @@
+#include "mbedtls/aes.h"
 #include "utils.h"
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include "mbedtls/aes.h"
 
 #define BUF_SIZE 4096
 
@@ -37,6 +37,20 @@ int main(int argc, char *argv[]) {
   }
 
   mbedtls_aes_context aes;
+  mbedtls_aes_init(&aes);
+  int err =
+      mbedtls_aes_setkey_dec(&aes, (const unsigned char *)key, strlen(key) * 8);
+  if (err) {
+    printf("Key should be 16, 24, or 32 bytes long\n");
+    return EXIT_FAILURE;
+  }
+
+  unsigned char output[BUF_SIZE] = {0};
+  err = mbedtls_aes_crypt_ecb(&aes, MBEDTLS_AES_DECRYPT, buf, output);
+  if (err) {
+    printf("Could not decode buffer\n");
+    return EXIT_FAILURE;
+  }
 
   if (fclose(fp)) {
     printf("Error closing file %s\n", filename);
