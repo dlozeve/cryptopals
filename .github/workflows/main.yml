@@ -19,5 +19,6 @@ jobs:
       uses: BSFishy/meson-build@v1.0.1
       with:
         action: build
+        meson-version: 0.54.2
     - name: Run tests
       run: ./build/tests --color always
