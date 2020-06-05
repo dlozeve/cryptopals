@@ -1,3 +1,6 @@
 [submodule "subprojects/munit"]
 	path = subprojects/munit
 	url = https://github.com/nemequ/munit.git
+[submodule "subprojects/mbedtls"]
+	path = subprojects/mbedtls
+	url = https://github.com/ARMmbed/mbedtls.git
