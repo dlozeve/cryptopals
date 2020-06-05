@@ -23,10 +23,14 @@ int main(int argc, char *argv[]) {
   }
 
   char input[BUF_SIZE] = {'\0'};
-  size_t nread = fread(input, 1, BUF_SIZE, fp);
-  if (nread == 0) {
-    printf("Cannot read any character from file %s\n", filename);
-    return EXIT_FAILURE;
+  int c;
+  size_t nread = 0;
+  while ((c = fgetc(fp)) != EOF) {
+    if (c == '\n' || c == '\r') { // ignore newlines
+      continue;
+    }
+    input[nread] = c;
+    nread++;
   }
 
   unsigned char buf[BUF_SIZE] = {0};
@@ -46,11 +50,19 @@ int main(int argc, char *argv[]) {
   }
 
   unsigned char output[BUF_SIZE] = {0};
-  err = mbedtls_aes_crypt_ecb(&aes, MBEDTLS_AES_DECRYPT, buf, output);
-  if (err) {
-    printf("Could not decode buffer\n");
-    return EXIT_FAILURE;
+  // Decrypt block by block
+  for (size_t i = 0; i <= BUF_SIZE - 16; i += 16) {
+    if (buf[i] == 0) {
+      break;
+    }
+    err = mbedtls_aes_crypt_ecb(&aes, MBEDTLS_AES_DECRYPT, buf + i, output + i);
+    if (err) {
+      printf("Could not decode buffer\n");
+      return EXIT_FAILURE;
+    }
   }
+
+  printf("%s", output);
 
   if (fclose(fp)) {
     printf("Error closing file %s\n", filename);
