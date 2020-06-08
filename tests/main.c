@@ -63,18 +63,18 @@ static MunitResult test_frequency_score(const MunitParameter params[],
   (void)data;
 
   // Non-printable characters should return INFINITY.
-  assert(isfinite(frequency_score("YELLOW SUBMARINE", 16)));
-  assert(isinf(frequency_score("\0x07", 1)));
-  assert(isinf(frequency_score("YELLOW\0x07 SUBMARINE", 17)));
+  assert(isfinite(frequency_score(16, "YELLOW SUBMARINE")));
+  assert(isinf(frequency_score(1, "\0x07")));
+  assert(isinf(frequency_score(17, "YELLOW\0x07 SUBMARINE")));
 
   // Teh frequency score should be case-insensitive.
-  assert_double_equal(frequency_score("YELLOW SUBMARINE", 16),
-                      frequency_score("yellow submarine", 16), 12);
+  assert_double_equal(frequency_score(16, "YELLOW SUBMARINE"),
+                      frequency_score(16, "yellow submarine"), 12);
 
   // E is more frequent than Z.
-  assert_double(frequency_score("eee", 3), <, frequency_score("zzz", 3));
+  assert_double(frequency_score(3, "eee"), <, frequency_score(3, "zzz"));
   // Space is more frequent than anything.
-  assert_double(frequency_score("   ", 3), <, frequency_score("eee", 3));
+  assert_double(frequency_score(3, "   "), <, frequency_score(3, "eee"));
 
   return MUNIT_OK;
 }

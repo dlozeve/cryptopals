@@ -24,7 +24,7 @@ unsigned char hex_to_byte(const char c) {
   return 10 + c - 'a';
 }
 
-size_t hex_to_bytes(unsigned char *out, const char hex[static 1]) {
+size_t hex_to_bytes(unsigned char out[static 1], const char hex[static 1]) {
   for (size_t i = 0; i < strlen(hex); ++i) {
     char c = tolower(hex[i]);
     unsigned char value = hex_to_byte(c);
@@ -39,7 +39,7 @@ size_t hex_to_bytes(unsigned char *out, const char hex[static 1]) {
 static const char base64_table[65] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-char *bytes_to_base64(char *out, const unsigned char in[static 1], size_t len) {
+char *bytes_to_base64(char out[static 4], const unsigned char in[static 3], size_t len) {
   for (size_t i = 0; i < len - 2; i += 3) {
     size_t j = i / 3 * 4;
     out[j] = base64_table[in[i] >> 2];
@@ -50,7 +50,7 @@ char *bytes_to_base64(char *out, const unsigned char in[static 1], size_t len) {
   return out;
 }
 
-size_t base64_to_bytes(unsigned char *out, const char *in) {
+size_t base64_to_bytes(unsigned char out[static 3], const char in[static 4]) {
   char decoding_table[256] = {0};
   for (size_t i = 0; i < 64; ++i) {
     decoding_table[(unsigned char)base64_table[i]] = i;
@@ -86,7 +86,7 @@ size_t base64_to_bytes(unsigned char *out, const char *in) {
   return i;
 }
 
-double frequency_score(const char *buf, size_t len) {
+double frequency_score(size_t len, const char buf[static len]) {
   static const double english_freqs[27] = {
       0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, // A-G
       0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, // H-N
@@ -119,7 +119,7 @@ double frequency_score(const char *buf, size_t len) {
   return chi2;
 }
 
-unsigned int hamming(const char *s1, const char *s2) {
+unsigned int hamming(const char s1[static 1], const char s2[static 1]) {
   unsigned int len1 = strlen(s1);
   unsigned int len2 = strlen(s2);
 

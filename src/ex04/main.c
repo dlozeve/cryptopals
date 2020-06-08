@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
       for (size_t i = 0; i < len; ++i) {
         cur[i] = buf[i] ^ c;
       }
-      double score = frequency_score(cur, len);
+      double score = frequency_score(len, cur);
       if (score < 40.0) {
         printf("%4u | %c   | %5.1f | ", line_count, c,
                score);

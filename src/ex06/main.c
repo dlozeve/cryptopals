@@ -6,8 +6,8 @@
 
 #define BUF_SIZE 4096
 
-double normalized_edit_distance(const unsigned char *buf,
-                                unsigned int keysize) {
+double normalized_edit_distance(unsigned int keysize,
+                                const unsigned char buf[static keysize * 4]) {
   char block1[keysize];
   char block2[keysize];
   char block3[keysize];
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
   unsigned int keysize = 40;
   double min_edit_dist = INFINITY;
   for (unsigned int i = 40; i > 1; --i) {
-    double edit_dist = normalized_edit_distance(buf, i);
+    double edit_dist = normalized_edit_distance(i, buf);
     if (edit_dist < min_edit_dist) {
       min_edit_dist = edit_dist;
       keysize = i;
