@@ -48,6 +48,11 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
+  if (fclose(fp)) {
+    printf("Error closing file %s\n", filename);
+    return EXIT_FAILURE;
+  }
+
   unsigned char buf[BUF_SIZE] = {0};
   size_t len = base64_to_bytes(buf, input);
   if (len == 0) {
@@ -67,10 +72,23 @@ int main(int argc, char *argv[]) {
 
   printf("keysize = %u, min edit distance = %f\n", keysize, min_edit_dist);
 
-  if (fclose(fp)) {
-    printf("Error closing file %s\n", filename);
-    return EXIT_FAILURE;
+  size_t blocks_count = 1 + len / keysize;
+  unsigned char blocks[keysize][blocks_count];
+  memset(blocks, 0, blocks_count * keysize);
+
+  for (size_t i = 0; i < blocks_count; ++i) {
+    for (size_t j = 0; j < keysize; ++j) {
+      blocks[j][i] = buf[i * keysize + j];
+    }
   }
+
+  char key[keysize];
+  for (size_t j = 0; j < keysize; ++j) {
+    printf("Guessing key character %2zu: ", j);
+    key[j] = best_single_char_xor_key(blocks_count, blocks[j]);
+    printf("%c\n", key[j]);
+  }
+  printf("key: %s\n", key);
 
   return EXIT_SUCCESS;
 }

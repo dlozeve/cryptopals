@@ -9,5 +9,6 @@ char *bytes_to_base64(char out[static 4], const unsigned char in[static 3], size
 size_t base64_to_bytes(unsigned char out[static 3], const char in[static 4]);
 double frequency_score(size_t len, const char buf[static len]);
 unsigned int hamming(const char s1[static 1], const char s2[static 1]);
+char best_single_char_xor_key(size_t len, unsigned char buf[static len]);
 
 #endif /* UTILS_H */

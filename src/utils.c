@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 
 #define min(a, b)                                                              \
   ({                                                                           \
@@ -39,7 +40,8 @@ size_t hex_to_bytes(unsigned char out[static 1], const char hex[static 1]) {
 static const char base64_table[65] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-char *bytes_to_base64(char out[static 4], const unsigned char in[static 3], size_t len) {
+char *bytes_to_base64(char out[static 4], const unsigned char in[static 3],
+                      size_t len) {
   for (size_t i = 0; i < len - 2; i += 3) {
     size_t j = i / 3 * 4;
     out[j] = base64_table[in[i] >> 2];
@@ -132,4 +134,27 @@ unsigned int hamming(const char s1[static 1], const char s2[static 1]) {
     }
   }
   return res;
+}
+
+char best_single_char_xor_key(size_t len, unsigned char buf[static len]) {
+  char cur[len];
+  double min_score = INFINITY;
+  char key = 'X';
+
+  for (char c = 32; c < 127; ++c) {
+    for (size_t i = 0; i < len; ++i) {
+      cur[i] = buf[i] ^ c;
+    }
+    double score = frequency_score(len, cur);
+    //printf("current character: %c, current score: %f\n", c, score);
+    if (score < min_score) {
+      min_score = score;
+      key = c;
+    }
+    if (isfinite(min_score)) {
+      printf("current best character: %c, current best score: %f\n", key, min_score);
+    }
+  }
+
+  return key;
 }
