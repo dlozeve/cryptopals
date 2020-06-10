@@ -40,7 +40,15 @@ int main(int argc, char *argv[]) {
   }
 
   char input[BUF_SIZE] = {'\0'};
-  size_t nread = fread(input, 1, BUF_SIZE, fp);
+  int c;
+  size_t nread = 0;
+  while ((c = fgetc(fp)) != EOF) {
+    if (c == '\n' || c == '\r') { // ignore newlines
+      continue;
+    }
+    input[nread] = c;
+    nread++;
+  }
   if (nread == 0) {
     printf("Cannot read any character from file %s\n", filename);
     return EXIT_FAILURE;
@@ -82,11 +90,14 @@ int main(int argc, char *argv[]) {
 
   char key[keysize];
   for (size_t j = 0; j < keysize; ++j) {
-    printf("Guessing key character %2zu: ", j);
     key[j] = best_single_char_xor_key(blocks_count, blocks[j]);
-    printf("%c\n", key[j]);
   }
-  //printf("key: %s\n", key);
+  printf("Key: %s\n\n", key);
+
+  for (size_t i = 0; i < len; ++i) {
+    printf("%c", buf[i] ^ key[i % keysize]);
+  }
+  putchar('\n');
 
   return EXIT_SUCCESS;
 }

@@ -1,7 +1,6 @@
 #include "utils.h"
 #include <ctype.h>
 #include <math.h>
-#include <stdio.h>
 #include <string.h>
 
 unsigned char hex_to_byte(const char c) {
@@ -82,6 +81,7 @@ double frequency_score(size_t len, const char buf[static len]) {
       0.0673, 0.0894, 0.0268, 0.0106, 0.0183, 0.0019, 0.0172, 0.0011,
       // space
       0.19182};
+
   // static const double english_freqs[27] = {
   //     // A-Z
   //     0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, 0.06094,
@@ -137,13 +137,9 @@ char best_single_char_xor_key(size_t len, unsigned char buf[static len]) {
       cur[i] = buf[i] ^ c;
     }
     double score = frequency_score(len, cur);
-    //printf("current character: %c, current score: %f\n", c, score);
     if (score < min_score) {
       min_score = score;
       key = c;
-    }
-    if (isfinite(min_score)) {
-      printf("current best character: %c, current best score: %f\n", key, min_score);
     }
   }
 
