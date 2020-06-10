@@ -20,10 +20,9 @@ int main(int argc, char *argv[]) {
   unsigned int line_count = 0;
   char *line = NULL;
   size_t line_length = 0;
-  ssize_t nread = 0;
   size_t len;
 
-  while ((nread = getline(&line, &line_length, fp)) != -1) {
+  while (getline(&line, &line_length, fp) != -1) {
     line_count++;
 
     line[60] = '\0';
