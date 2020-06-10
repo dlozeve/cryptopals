@@ -83,7 +83,9 @@ static MunitResult test_hamming(const MunitParameter params[], void *data) {
   (void)params;
   (void)data;
 
-  assert_int(hamming(14, "this is a test", "wokka wokka!!!"), ==, 37);
+  assert_int(hamming(14, (const unsigned char *)"this is a test",
+                     (const unsigned char *)"wokka wokka!!!"),
+             ==, 37);
 
   return MUNIT_OK;
 }

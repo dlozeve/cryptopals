@@ -6,23 +6,15 @@
 
 #define BUF_SIZE 4096
 
-double normalized_edit_distance(unsigned int keysize,
-                                const unsigned char buf[static keysize * 4],
-                                unsigned int blocks_count) {
-  char blocks[blocks_count][keysize];
-
-  for (size_t i = 0; i < blocks_count; ++i) {
-    for (size_t j = 0; j < keysize; ++j) {
-      blocks[i][j] = buf[i * keysize + j];
-    }
-  }
-
+double normalized_edit_distance(
+    unsigned int keysize, unsigned int blocks_count,
+    const unsigned char buf[static keysize * blocks_count]) {
   double avg_dist = 0;
   for (size_t i = 0; i < blocks_count - 1; ++i) {
-    avg_dist += hamming(keysize, blocks[i], blocks[i + 1]) / (double)keysize;
+    avg_dist += hamming(keysize, &buf[i * keysize], &buf[(i + 1) * keysize]);
   }
 
-  return avg_dist / ((double)blocks_count - 1.0);
+  return avg_dist / (double)keysize / ((double)blocks_count - 1.0);
 }
 
 int main(int argc, char *argv[]) {
@@ -66,10 +58,10 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  unsigned int keysize = 40;
+  unsigned int keysize = 0;
   double min_edit_dist = INFINITY;
-  for (unsigned int i = 40; i > 1; --i) {
-    double edit_dist = normalized_edit_distance(i, buf, len / i);
+  for (unsigned int i = 2; i < 40; ++i) {
+    double edit_dist = normalized_edit_distance(i, len / i, buf);
     if (edit_dist < min_edit_dist) {
       min_edit_dist = edit_dist;
       keysize = i;
