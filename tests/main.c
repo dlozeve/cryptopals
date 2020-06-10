@@ -90,6 +90,29 @@ static MunitResult test_hamming(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_single_char_xor(const MunitParameter params[],
+                                        void *data) {
+  // This is actually challenge 3.
+  (void)params;
+  (void)data;
+
+  const char *in =
+      "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
+  unsigned char buf[512] = {0};
+  size_t len = hex_to_bytes(buf, in);
+
+  char key = best_single_char_xor_key(len, buf);
+
+  assert_char(key, ==, 'X');
+  char cleartext[512] = {'\0'};
+  for (size_t i = 0; i < len; ++i) {
+    cleartext[i] = buf[i] ^ key;
+  }
+  assert_string_equal(cleartext, "Cooking MC's like a pound of bacon");
+
+  return MUNIT_OK;
+}
+
 static MunitTest test_suite_tests[] = {
     {"/hex_to_byte", test_hex_to_byte, NULL, NULL, MUNIT_TEST_OPTION_NONE,
      NULL},
@@ -100,6 +123,8 @@ static MunitTest test_suite_tests[] = {
     {"/frequency_score", test_frequency_score, NULL, NULL,
      MUNIT_TEST_OPTION_NONE, NULL},
     {"/hamming", test_hamming, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+    {"/single_char_xor", test_single_char_xor, NULL, NULL,
+     MUNIT_TEST_OPTION_NONE, NULL},
     {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}};
 
 static const MunitSuite test_suite = {(char *)"", test_suite_tests, NULL, 1,
