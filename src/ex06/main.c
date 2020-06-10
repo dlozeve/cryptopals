@@ -19,7 +19,7 @@ double normalized_edit_distance(unsigned int keysize,
 
   double avg_dist = 0;
   for (size_t i = 0; i < blocks_count - 1; ++i) {
-    avg_dist += hamming(blocks[i], blocks[i + 1]) / (double)keysize;
+    avg_dist += hamming(keysize, blocks[i], blocks[i + 1]) / (double)keysize;
   }
 
   return avg_dist / ((double)blocks_count - 1.0);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
   unsigned int keysize = 40;
   double min_edit_dist = INFINITY;
-  for (unsigned int i = 30; i > 1; --i) {
+  for (unsigned int i = 40; i > 1; --i) {
     double edit_dist = normalized_edit_distance(i, buf, len / i);
     if (edit_dist < min_edit_dist) {
       min_edit_dist = edit_dist;
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
     key[j] = best_single_char_xor_key(blocks_count, blocks[j]);
     printf("%c\n", key[j]);
   }
-  printf("key: %s\n", key);
+  //printf("key: %s\n", key);
 
   return EXIT_SUCCESS;
 }

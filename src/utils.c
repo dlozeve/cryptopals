@@ -4,19 +4,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#define min(a, b)                                                              \
-  ({                                                                           \
-    __typeof__(a) _a = (a);                                                    \
-    __typeof__(b) _b = (b);                                                    \
-    _a > _b ? _b : _a;                                                         \
-  })
-
-#define max(a, b)                                                              \
-  ({                                                                           \
-    __typeof__(a) _a = (a);                                                    \
-    __typeof__(b) _b = (b);                                                    \
-    _a > _b ? _a : _b;                                                         \
-  })
 
 unsigned char hex_to_byte(const char c) {
   if (isdigit(c)) {
@@ -121,12 +108,9 @@ double frequency_score(size_t len, const char buf[static len]) {
   return chi2;
 }
 
-unsigned int hamming(const char s1[static 1], const char s2[static 1]) {
-  unsigned int len1 = strlen(s1);
-  unsigned int len2 = strlen(s2);
-
+unsigned int hamming(size_t len, const char s1[static len], const char s2[static len]) {
   unsigned int res = 0;
-  for (size_t i = 0; i < min(len1, len2); ++i) {
+  for (size_t i = 0; i < len; ++i) {
     unsigned int n = s1[i] ^ s2[i];
     while (n) {
       res += n & 1;
