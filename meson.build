@@ -17,6 +17,8 @@ executable('ex05', ['src/ex05/main.c', 'src/utils.c'], dependencies: m_dep, incl
 executable('ex06', ['src/ex06/main.c', 'src/utils.c'], dependencies: m_dep, include_directories: incdir)
 executable('ex07', ['src/ex07/main.c', 'src/utils.c'],
 	   dependencies: [m_dep, mbedtls_dep], include_directories: incdir)
+executable('ex08', ['src/ex08/main.c', 'src/utils.c'],
+	   dependencies: [m_dep, mbedtls_dep], include_directories: incdir)
 
 munit_dep = dependency('munit', fallback: ['munit', 'munit_dep'])
 
