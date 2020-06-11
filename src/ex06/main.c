@@ -8,17 +8,6 @@
 
 #define BUF_SIZE 4096
 
-double normalized_edit_distance(
-    unsigned int keysize, unsigned int blocks_count,
-    const unsigned char buf[static keysize * blocks_count]) {
-  double avg_dist = 0;
-  for (size_t i = 0; i < blocks_count - 1; ++i) {
-    avg_dist += hamming(keysize, &buf[i * keysize], &buf[(i + 1) * keysize]);
-  }
-
-  return avg_dist / (double)keysize / ((double)blocks_count - 1.0);
-}
-
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     printf("Usage: %s <filename>\n", argv[0]);
