@@ -1,4 +1,5 @@
-#include "utils.h"
+#include "frequency.h"
+#include "io.h"
 #include <ctype.h>
 #include <stdio.h>
 
@@ -37,16 +38,15 @@ int main(int argc, char *argv[]) {
       }
       double score = frequency_score(len, cur);
       if (score < 40.0) {
-        printf("%4u | %c   | %5.1f | ", line_count, c,
-               score);
+        printf("%4u | %c   | %5.1f | ", line_count, c, score);
         for (size_t i = 0; i < len; ++i) {
-	  if (isprint(cur[i])) {
-	    putchar(cur[i]);
-	  } else if (cur[i] == '\n') {
-	    printf("\\n");
-	  }
+          if (isprint(cur[i])) {
+            putchar(cur[i]);
+          } else if (cur[i] == '\n') {
+            printf("\\n");
+          }
         }
-	printf("\n");
+        printf("\n");
       }
     }
   }

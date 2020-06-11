@@ -1,4 +1,6 @@
-#include "utils.h"
+#include "distance.h"
+#include "frequency.h"
+#include "io.h"
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>

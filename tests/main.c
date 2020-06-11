@@ -1,6 +1,8 @@
 #define MUNIT_ENABLE_ASSERT_ALIASES
+#include "distance.h"
+#include "frequency.h"
+#include "io.h"
 #include "munit.h"
-#include "utils.h"
 #include <math.h>
 #include <stdlib.h>
 
