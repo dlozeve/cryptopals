@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
+from pathlib import Path
 from typing import List
 import subprocess
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
 def run_challenge(challenge: int, inputs: List[str], expected: List[str]) -> None:
     print(f"[challenge {challenge:02}]", end=" ")
     res = subprocess.run(
-        [f"../build/ex{challenge:02}", *inputs],
+        [ROOT_DIR / f"build/ex{challenge:02}", *inputs],
         capture_output=True,
         check=True,
         text=True,
@@ -49,12 +52,14 @@ def main():
     )
 
     run_challenge(
-        challenge=4, inputs=["../data/4.txt"], expected=["Now that the party is jumping\\n"],
+        challenge=4,
+        inputs=[ROOT_DIR / "data/4.txt"],
+        expected=["Now that the party is jumping\\n"],
     )
 
     run_challenge(
         challenge=5,
-        inputs=["ICE", "../data/5.txt"],
+        inputs=["ICE", ROOT_DIR / "data/5.txt"],
         expected=[
             "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d"
             "63343c2a26226324272765272a282b2f20430a652e2c652a31"
@@ -62,16 +67,18 @@ def main():
         ],
     )
 
-    with open("output6.txt", "r") as f:
+    with open(ROOT_DIR / "tests/output6.txt", "r") as f:
         output6 = f.read()
     run_challenge(
         challenge=6,
-        inputs=["../data/6.txt"],
+        inputs=[ROOT_DIR / "data/6.txt"],
         expected=["Terminator X: Bring the noise", output6],
     )
 
     run_challenge(
-        challenge=7, inputs=["YELLOW SUBMARINE", "../data/7.txt"], expected=[output6],
+        challenge=7,
+        inputs=["YELLOW SUBMARINE", ROOT_DIR / "data/7.txt"],
+        expected=[output6],
     )
 
 
