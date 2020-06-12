@@ -20,5 +20,7 @@ jobs:
       with:
         action: build
         meson-version: 0.54.2
-    - name: Run tests
+    - name: Run unit tests
       run: ./build/tests --color always
+    - name: Run challenges and test their outputs
+      run: python ./tests/challenges.py
